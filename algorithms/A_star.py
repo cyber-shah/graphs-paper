@@ -58,6 +58,8 @@ def a_star_destination(graph, source_node_name, destination_node_name):
         # get the current node from the open_unvisited_set
         # with the lowest f_score
         f, current_node = heapq.heappop(open_unvisited_set)
+        if current_node in closed_visited_set:
+            continue
         closed_visited_set.add(current_node)
         explored_nodes_indices.append(current_node.index)
 
@@ -68,20 +70,26 @@ def a_star_destination(graph, source_node_name, destination_node_name):
         # for all neighbors _________________________________________
         # else visit all the UNVISITED adjacent nodes of current node
         for neighbor in current_node.get_neighbors(graph):
-            if neighbor not in closed_visited_set:
-                # calculate tentative_g
-                tentative_g = current_node.g + graph.get_edge(current_node, neighbor)
-                # if neighbor is visited and the tentative_g > neighbor.g
-                if neighbor in closed_visited_set and tentative_g > neighbor.g:
-                    continue
-                # if the neighbor not in open_unvisited_set or tentative_g_score < neighbor.g:
-                elif neighbor not in open_unvisited_set or tentative_g < neighbor.g:
-                    neighbor.g = tentative_g
-                    neighbor.h = heuristic(neighbor, destination_node)
-                    neighbor.f = neighbor.g + neighbor.h
-                    neighbor.parent = current_node
-                    if neighbor not in open_unvisited_set:
-                        heapq.heappush(open_unvisited_set, (neighbor.f, neighbor))
+            # calculate tentative_g
+            tentative_g = current_node.g + graph.get_edge(current_node, neighbor)
+
+            # if neighbor is visited and the tentative_g > neighbor.g,
+            # we already have a better path
+            if neighbor in closed_visited_set and tentative_g >= neighbor.g:
+                continue
+
+            # if the neighbor is not already visited or
+            # the tentative_g is less than the neighbor.g
+            if neighbor not in open_unvisited_set or tentative_g < neighbor.g:
+                # update all the values of neighbour to this new path
+                neighbor.g = tentative_g
+                neighbor.h = heuristic(neighbor, destination_node)
+                neighbor.f = neighbor.g + neighbor.h
+                neighbor.parent = current_node
+
+                # if neighbour is not in the unvisited set, add it to visit again
+                if neighbor not in open_unvisited_set:
+                    heapq.heappush(open_unvisited_set, (neighbor.f, neighbor))
 
     # return the path
     path = []

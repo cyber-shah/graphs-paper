@@ -1,9 +1,9 @@
 import re
 
-import model.Graph as Graph
-import model.Node as Node
-import model_rows.GraphRC as GraphRC
-import model_rows.NodeRC as NodeRC
+import model.model_old.Graph_old as Graph
+import model.model_old.Node_old as Node
+import model.Graph as GraphRC
+import model.Node as NodeRC
 import csv
 
 

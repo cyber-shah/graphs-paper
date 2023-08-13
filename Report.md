@@ -6,18 +6,19 @@
 * **Semester**: Summer 2023
 * **Languages Used**: C and Python
 
-<!-- TODO : check time complexities -->
-<!-- TODO : make sure A* is more elaborated in every section -->
-
 # 1 - Abstract
 
 This report aims to comprehensively explore the implementation and performance of key pathfinding algorithms: Depth First Search, Breadth First Search, Dijkstra's Algorithm, and A* Algorithm. Each algorithm will be scrutinized in terms of theoretical foundations, practical implementation details, rigorous testing, and insightful discussions. The overarching goal is to gain a profound understanding of these algorithms' inner workings and their efficacy across various scenarios.
 
-The report delves into the nuances of each algorithm, dissecting their strengths and weaknesses, and uncovering their optimal use cases. Thorough testing is conducted using a diverse set of criteria, including shortest path determination, nodes explored, time and memory utilization, and adaptability to distinct graph configurations. The selected testing conditions encompass a spectrum of scenarios, ranging from straightforward weighted graphs to intricate mazes replete with obstacles.
+The report delves into the nuances of each algorithm,
+dissecting their strengths and weaknesses, and uncovering their optimal use cases.
+Thorough testing is conducted using a diverse set of criteria, including the shortest path determination,
+nodes explored, time and memory utilization, and adaptability to distinct graph configurations.
+The selected testing conditions encompass a spectrum of scenarios,
+ranging from straightforward weighted graphs to intricate mazes replete with obstacles.
 
 As we progress through this exploration, the report will provide clarity on the reasons behind the chosen testing criteria and conditions, grounding our analysis in a solid rationale. Through this holistic investigation, readers will gain not only a deep comprehension of these fundamental pathfinding techniques but also insights into their applicability across real-world situations.
 
-<!-- # TODO : describe why these criterias were chosen -->
 <!-- The algorithms are tested on the following criteria:
 1. Shortest path
 2. Nodes explored to find the shortest path
@@ -27,25 +28,34 @@ As we progress through this exploration, the report will provide clarity on the 
 6. Performance on different grid sizes
 7. Performance on different obstacles
 8. Performance on different edge weights
-9. Variying start and end nodes
+9. Varying start and end nodes
 
 The algorithms are tested on the following conditions:
 1. A simple graph weighted edges
-2. A grid of nodes each with uniform edge weight and no obstacles and a pretty straight forward shortest path
+2. A grid of nodes each with uniform-edge weight and no obstacles and a pretty straight forward shortest path
 3. A maze with obstacles and many shorter paths -->
-<!-- # TODO : add a concise summary of the results -->
 
 
 
 # 2 - Introduction
 
 ### <u> 2.1 - Why Path Finding? </u>
-Path finding has been a very important problem in computer science. It has been used in many applications such as logistics planning, least cost call or IP routing, and gaming simulation. 
-I got really interested into it when I learned that a logistics company (UPS) collected years of data and used algorithms to navigate better.
-UPS says it’s saved 10 million gallons of fuel, avoided the emission of 20,000 tons of CO2, and delivered 350,000 more packages a year, just due to efficient path finding!
-More on that here: [Science Behind UPS Trucks!](https://bigthink.com/technology-innovation/the-science-behind-why-ups-trucks-avoid-making-left-turns/)
+Path finding has been a very important problem in computer science.
+It has been used in many applications such as logistics planning,
+the least cost call or IP routing, and gaming simulation. 
+I got really interested in it when I learned that a logistics company
+(UPS) collected years of data and used algorithms to navigate better.
+UPS says it saved 10 million gallons of fuel,
+avoided the emission of 20,000 tons of CO2,
+and delivered 350,000 more packages a year, just due to efficient path finding!
+More on that here:
+[Science Behind UPS Trucks!](https://bigthink.com/technology-innovation/the-science-behind-why-ups-trucks-avoid-making-left-turns/)
 
-I was also interested in it because I am a largely interested in video games and I wanted to learn how video games work. I also wanted to learn how self driving cars work. I learned that path finding is a very important part of both of these applications and it solves a very important problem. A problem that we as humans encounter almost everyday.
+I was also interested in it because I am largely interested in video games and I wanted to learn how video games work.
+I also wanted to learn how self-driving cars work.
+I learned that path finding is a very important part of both of these applications,
+and it solves a very important problem.
+A problem that we as humans encounter almost every day.
 
 
 <img src = https://happycoding.io/tutorials/libgdx/images/pathfinding-12.png> 
@@ -54,7 +64,12 @@ Image Source: [Happy Coding/ Path finding](https://happycoding.io/tutorials/libg
 
 ### <u> 2.2 - What is Path Finding? </u>
 Path finding is the process of finding a path between two points in a graph.
-A graph is a data structure that consists of nodes and edges. The nodes are the points in the graph and the edges are the connections between the nodes. The edges can be weighted or unweighted. The weight of an edge is the cost of traversing that edge. The cost can be anything such as distance, time, fuel, etc. The edges can also be directed or undirected. The directed edges are one way and the undirected edges are two way.
+A graph is a data structure that consists of nodes and edges.
+The nodes are the points in the graph, and the edges are the connections between the nodes.
+The edges can be weighted or unweighted.
+The weight of an edge is the cost of traversing that edge.
+The cost can be anything such as distance, time, fuel, etc. The edges can also be directed or undirected.
+The directed edges are one way and the undirected edges are two-way.
 
 The goal of path finding is to determine the shortest path between two nodes in a graph. The path can be defined as the sequence of nodes that need to be traversed to reach the destination node from the source node.  
 
@@ -72,7 +87,7 @@ The algorithms covered in this report are:
 
 
 # 3 - Background
-Graph traversal algorithms form the backbone of various computational processes, from deciphering networks to enabling efficient path-finding. These algorithms are instrumental in navigating the intricate web of connections that graphs represent. One fundamental class of graph traversal algorithms includes Depth First Search (DFS), which excels in exploring the depths of a graph's structure.
+Graph traversal algorithms form the backbone of various computational processes, from deciphering networks to enabling efficient path-finding. These algorithms are instrumental in navigating the intricate web of connections that graphs represent. One fundamental class of graph traversal algorithms includes Depth-First Search (DFS), which excels in exploring the depths of a graph's structure.
 
 In this section, we will delve into the theoretical foundations of DFS, its operational principles, and its applicability across various scenarios. By understanding DFS in the context of graph traversal algorithms, we can appreciate its unique strengths and limitations as we delve deeper into its mechanics.
 
@@ -88,21 +103,22 @@ The algorithms can be divided into two parts here: 1 that help us find out IF a 
 ## 3.1 - The Path Existence Problem
 
 The two algorithms that help us find out IF a path exists are: DFS and BFS. 
-> All the GIFs shown in this section are made by me, unless  otherwise stated. 
->  Kindly note that the algorithms have been implemented by me and pygame is used to create animations. The pygame animation code can be found here : [pyGame_Vizs.py](vizs/pyGame_Vizs.py)
+> All the GIFs shown in this section are made by me, unless otherwise stated. 
+> Kindly note that the algorithms have been implemented by me and pygame is used to create animations.
+> The pygame animation code can be found here: [pyGame_Vizs.py](view/pyGame_Vizs.py)
 
 ### 3.1.1 - Depth First Search (DFS)
    1. **_History_**: 
-      - Depth First search dates back to 19th century. It was first used by French mathematician Charles Pierre Trémaux as a strategy for solving mazes. 
-      - DFS is was pretty much the background for most of the modern day path finding algorithms. From Bellman Ford to Dijkstra to A* to Prim's Algorithm, have all built on top of DFS.
-      - It's simplicity and efficiency makes it a very popular algorithm. It is also very easy to implement.
+      - Depth-First search dates back to the 19th century. It was first used by French mathematician Charles Pierre Trémaux as a strategy for solving mazes. 
+      - DFS was pretty much the background for most of the modern day path finding algorithms. From Bellman Ford to Dijkstra to A* to Prim's Algorithm, have all built on top of DFS.
+      - Its simplicity and efficiency makes it a very popular algorithm. It is also very easy to implement.
    2.  **Overview of how it works**:  
-       - Depth First Search is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges. 
+       - Depth-First Search is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges. 
        - It follows a single path until it reaches a dead end. It then backtracks to the previous node and explores the next path. It keeps doing this until it reaches the destination node. 
        - It then backtracks from the destination node to the source node to find the shortest path. It uses a stack to keep track of the nodes that need to be explored. It uses a parent array to keep track of the path. The parent array is used to backtrack from the destination node to the source node. The parent array is also used to find the number of nodes explored to find the shortest path.
-        ![DFS-basic](view/graphics/basic-DFS.gif)
+        ![DFS-basic](view/images/basic-DFS.gif)
    3.  **_Advantages_**: 
-       - The advantage of DFS is that it is very simple to implement. 
+       - The advantage of DFS is that it is straightforward to implement. 
        - It is also very fast and uses very little memory. 
        - It can quickly determine if a graph has cycles.
    4. **_Disadvantages_**: 
@@ -114,7 +130,7 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
       - It is also used in topological sorting.
       - DFS is used in finding connected components in a graph.
       - It is also used in cycle detection in a graph.
-   6. **_Psuedocode_**:
+   6. **_Pseudocode_**:
       ```
       DFS(Graph,vertex v)
          Stack S
@@ -136,15 +152,15 @@ So by now we know how to solve the question of `is there a path between A to B?`
 1. ***Shortest Path Algorithms:***
     - BFS: It is used to find the shortest path between nodes in a graph, especially when the graph is unweighted or equally weighted. It can also be used to explore hierarchical structures or levels of depth in graphs, and to determine connected components in a graph.
     - Dijkstra’s Algorithm: It is used to find the shortest path between nodes in a graph, especially when the graph is weighted. It can also be used for routing and navigation systems, network routing protocols, and resource management and allocation.
-    - Astar: It is an extension of Dijkstra’s algorithm that uses a heuristic function to guide the search towards the goal node. It can also be used for telecommunication networks, GPS navigation systems, network routing, and pathfinding in video games and robotics.
+    - A* : It is an extension of Dijkstra’s algorithm that uses a heuristic function to guide the search towards the goal node. It can also be used for telecommunication networks, GPS navigation systems, network routing, and pathfinding in video games and robotics.
 2. ***Other Use Cases:***
     - BFS: It can be used for web crawling, social network analysis, and peer-to-peer networks.
     - Dijkstra’s Algorithm: It can be used for image segmentation, traffic engineering, and artificial intelligence.
-    - Astar: It can be used for natural language processing, machine learning, and computer vision.
+    - A* : It can be used for natural language processing, machine learning, and computer vision.
 
 ### 3.2.1 - Breadth First Search
 1. **_History_**:  
-      - Breadth First Search was invented by Konrad Zuse in 1945. 
+      - Breadth-First Search was invented by Konrad Zuse in 1945. 
       - It was later rediscovered by Edsger Dijkstra in 1959. 
       - It is also known as the `Breadth First Traversal` or `Breadth First Walk`.
       - It is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges.
@@ -153,7 +169,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
        - It operates in a similar way to DFS, but it uses a queue instead of a stack. 
        - It starts from the source node and explores it neighbors in `layers`. Layers are nothing but the nodes that are at a distance of `n` from the source node. So the first layer contains nodes that are at a distance of 1 from the source node. The second layer contains nodes that are at a distance of 2 from the source node and so on.
        - It explores the first layer first, then the second layer and so on. This means that nodes closer are explored first and nodes farther away are explored later.
-   ![BFS-basic](view/graphics/basic-BFS.gif)
+   ![BFS-basic](view/images/basic-BFS.gif)
 3. **_Advantages_**: 
       - BFS is guaranteed to find the shortest path between the source node and the destination node.
       - If the graph is connected, then BFS can be used to find the shortest path between all the nodes in the graph.
@@ -184,22 +200,22 @@ So by now we know how to solve the question of `is there a path between A to B?`
       - It is also known as the `Shortest Path First Algorithm`.
       - It was invented to solve the problem of finding the shortest path between nodes in a weighted graph.
 2. **_Overview of how it works_**:
-      - Dijkstra's Algorithm is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges. It is mainly used to find shortest path between nodes in a weighted graph. 
+      - Dijkstra's Algorithm is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges. It is mainly used to find the shortest path between nodes in a weighted graph. 
       - It is similar to BFS, but uses a concept called `edge relaxation`. Which means that it relaxes the edges of the graph by updating the distance of the nodes.
-      - While visiting nodes it maintains a distance array which stores the distance of each node from the source node. Initially the distance of all the nodes is set to infinity. And the distance of the source node is set to 0. 
+      - While visiting nodes, it maintains a distance array which stores the distance of each node from the source node. Initially, the distance of all the nodes is set to infinity. And the distance of the source node is set to 0. 
       - These distances are updated as the algorithm progresses.
       - The process ends when all the nodes have been visited and returns a list of shortest distances from the source node to all the other nodes.   
-      <img src = https://upload.wikimedia.org/wikipedia/commons/e/e4/DijkstraDemo.gif>   
-      Image source : [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:DijkstraDemo.gif") 
+      <img src = https://upload.wikimedia.org/wikipedia/commons/e/e4/DijkstraDemo.gif> 
+      Image source: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:DijkstraDemo.gif") 
 3. **_Advantages_**: 
    - Dijkstra's Algorithm is guaranteed to find the shortest path between the source node and the destination node.
    - The basic concept is straightforward to understand and implement.
    - It is also very efficient.
 4. **_Disadvantages_**:
-   - Limited to Positive Weights: Dijkstra's algorithm is not well-suited for graphs with negative edge weights, as negative cycles can lead to incorrect results or cause the algorithm to fail.
-   - Inapplicability to Negative Weights: The algorithm's reliance on selecting the minimum distance can break down when dealing with graphs containing negative edge weights.
+   - Limited to Positive Weights: Dijkstra's algorithm is not well-suited for graphs with negative-edge weights, as negative cycles can lead to incorrect results or cause the algorithm to fail.
+   - Inapplicability to Negative Weights: The algorithm's reliance on selecting the minimum distance can break down when dealing with graphs containing negative-edge weights.
    - Potential Inefficiency on Large Graphs: While Dijkstra's algorithm provides optimal solutions, it might not be the most efficient choice for large graphs due to its time complexity.
-5. **_Psuedocode_**:
+5. **_Pseudocode_**:
       ```
       1. Initialize all nodes with distance INFINITY, except the source node with distance 0.
       2. Create a priority queue (min-heap) and insert the source node with distance 0.
@@ -223,15 +239,15 @@ So by now we know how to solve the question of `is there a path between A to B?`
       - Heuristics involve estimating the distance between two nodes, specifically between the current node and the destination node. This estimation guides the algorithm in its exploration.
       - Unlike exhaustive searches, heuristic algorithms, like A*, selectively explore the most promising routes. They leverage an educated guess to determine which path holds the greatest potential.
       - In the animation below, the algorithm prioritizes promising routes, resulting in more efficient exploration while disregarding less viable paths.
-      ![A*](view/graphics/basic-Astar.gif)
+      ![A*](view/images/basic-Astar.gif)
 3. **_Advantages_**: 
       - A* boasts notable efficiency due to its effective utilization of heuristics.
      - Through the application of heuristics, A* excels at efficiently finding the shortest path in weighted graphs, often outperforming Dijkstra's Algorithm.
       - Notably, A* guarantees the discovery of the shortest path between the source and destination nodes when an admissible and consistent heuristic is employed.
 4. **_Disadvantages_**:
       - A* does have limitations. Its guarantee of finding the shortest path hinges on using an admissible, consistent, and monotonic heuristic.
-      - Other disadvantage include the fact that it is not well-suited for graphs with negative edge weights, as negative cycles can lead to incorrect results or cause the algorithm to fail.
-5. **_Psuedocode_**:
+      - Another disadvantage includes the fact that it is not well-suited for graphs with negative edge weights, as negative cycles can lead to incorrect results or cause the algorithm to fail.
+5. **_Pseudocode_**:
       ```
     1. Initialize all nodes with distance INFINITY, except the source node with distance 0.
     2. Create a priority queue (min-heap) and insert the source node with distance 0.
@@ -262,10 +278,16 @@ Therefore, the shift to Python was motivated by the intention to holistically co
 
 ## 4.1 - Data Structures
 
-Initially the structs/classes that hold the graphs and nodes were based on XY coordinate system, however when I started using libraries like Matplotlib and Pygame, I realized that it would be easier to use a matrix to represent the graph. So I changed the structs/classes to use a matrix instead of XY coordinates.
+Initially, the structs/classes that hold the graphs and nodes were based on XY coordinate system, however,
+when I started using libraries like Matplotlib and Pygame,
+I realized that it would be easier to use a matrix to represent the graph.
+So I changed the structs/classes to use a matrix instead of XY coordinates.
 
 ### 4.1.1 - Nodes
-The node data structure is responsible to hold the information about the node, heuristics, distance, parent and position. The node is represented as a struct in C and a class in Python. The C implementation of the node can be found here [Node in C](c-code/structs/Node.h).
+The node data structure is responsible to hold the information about the node,
+heuristics, distance, parent and position.
+The node is represented as a struct in C and a class in Python.
+The C implementation of the node can be found here [Node in C](c-code/structs/graph.h).
 
 ```C
 struct Node {
@@ -283,7 +305,7 @@ The Python implementation of the node can be found here [Node in Python](model/N
 - `h` - The heuristic value of the node.
 - `f` - total estimated cost of the node. $f(n) = g(n) + h(n)$
 
-> A noteable difference between the C and Python implementations is the python implementations are a lot more object oriented. The C implementations are more procedural. Apart from that they are also a big upgrade in terms of functionality and completeness.
+> A noteable difference between the C and Python implementations is the python implementations are a lot more object-oriented. The C implementations are more procedural. Apart from that, they are also a big upgrade in terms of functionality and completeness.
 
 ```python
 class NodeRC:
@@ -304,23 +326,23 @@ class NodeRC:
             self.row = row
             self.column = column
 ```
-Apart from getters and setters for all the attributes, the class also has the a method called `get_neighbors` that returns a list of nodes that are connected to the current node.
+Apart from getters and setters for all the attributes,
+the class also has a method called `get_neighbors` that returns a list of nodes that are connected to the current node.
 ```Python
-    def get_neighbors(self, graph):
-        # a list of nodes index
-        neighbors = []
-        for i in range(graph.number_of_nodes):
-            if graph.adjacency_matrix[self.index][i] != float('inf') and i != self.index:
-                neighbors.append(graph.get_node_via_index(i))
-        return neighbors
-        
+def get_neighbors(self, graph):
+    # a list of nodes' index
+    neighbors = []
+    for i in range(graph.number_of_nodes):
+        if graph.adjacency_matrix[self.index][i] != float('inf') and i != self.index:
+            neighbors.append(graph.get_node_via_index(i))
+    return neighbors   
 ```
 
 > Another major difference is the use of `rows` and `columns` to represent the nodes instead of using XY coordinates. This was done to make it easier to use libraries like Matplotlib and Pygame to visualize the graph. This decision was made after the C implementation was completed. The C implementation uses XY coordinates to represent the nodes.
 
 ### 4.1.2 - Graphs
 The graph data structure is responsible to hold the nodes and edges. The graph is represented as a matrix, where each row and column represents a node. The value of the matrix at the row and column index represents the weight of the edge between the two nodes. If the value is `inf`, it means that there is no edge between the two nodes.
-The C implementation of the graph can be found here [Graph in C](c-code/structs/Graph.h).
+The C implementation of the graph can be found here [Graph in C](c-code/structs/graph.h).
 ```C
 struct Graph {
     int numberOfNodes;
@@ -330,7 +352,7 @@ struct Graph {
 ```
 
 The python implementation of the graph can be found here [Graph in Python](model/Graph.py). It holds the following attributes:
-``` Python
+```Python
 class GraphRC:
     def __init__(self):
         self.number_of_nodes = 0
@@ -347,7 +369,7 @@ class GraphRC:
 
 Apart from getters and setters for all the attributes, the class also has the following methods:
 
-``` Python
+```Python
 def add_node(self, node):
       # 1. Update the node's index
       node.set_index(self.number_of_nodes)
@@ -380,9 +402,10 @@ One notable difference was the use of a dictionary to store the nodes. This was 
 
 ### 4.1.3 - Stacks and Queues
 The algorithms also use stacks and queues to keep track of the nodes that are visited.
-The C implementation uses stacks and queues developed in this class in the earlier assignements. The stacks and queues can be found here [Stacks in C](c-code/structs/mystack.h) and [Queues in C](c-code/structs/myQueue.h) respectively.
+The C implementation uses stacks and queues developed in this class in the earlier assignments.
+The stacks and queues can be found here [Stacks in C](c-code/structs/mystack.h) and [Queues in C](c-code/structs/myQueue.h) respectively.
 
-The python implementation uses the built in stacks and queues from the `collections` library. 
+The python implementation uses the built-in stacks and queues from the `collections` library. 
 
 
 ## 4.2 - Depth First Search
@@ -470,9 +493,6 @@ def build_shortest_path(parent_map, source_node_index, destination_node_index):
     return shortest_path
 ```
 
-
-<!-- TODO : maybe insert tests -->
-
 ## 4.3 - Breadth First Search
  
 - C implementation can be found here [BFS in C](c-code/algorithms/BFS.h)
@@ -480,7 +500,7 @@ def build_shortest_path(parent_map, source_node_index, destination_node_index):
 
 
 The approach to implementing BFS was to leverage a queue data structure to store the nodes that were visited. 
-This function performs BFS on the graph and returns the order of explored nodes and shortest path from source node
+This function performs BFS on the graph and returns the order of explored nodes and shortest path from the source node
 
     1. Initialize a queue and a visited array
     2. Mark the source node as visited and enqueue it
@@ -508,7 +528,7 @@ def bfs_destination(graph, source_node_name, destination_node_name):
     while queue:
         current_node_index = queue.popleft()
 
-        # if destination node is found, break the loop
+        # if the destination node is found, break the loop
         if current_node_index == destination_node_index:
             break
 
@@ -521,7 +541,7 @@ def bfs_destination(graph, source_node_name, destination_node_name):
                 explored_nodes_indices.append(i)
                 parent_map[i] = current_node_index  # Store parent information
 
-    # If destination node is not found, return shortest path as empty list
+    # If the destination node is not found, return the shortest path as an empty list
     if destination_node_index not in parent_map:
         return explored_nodes_indices, []
 
@@ -547,13 +567,17 @@ def build_shortest_path(parent_map, source_node_index, destination_node_index):
 ```
 
 
-## 4.4 - Djikstra's Algorithm
+## 4.4 - Dijkstra's Algorithm
 
-- C implementation can be found here [Djikstra in C](c-code/algorithms/Djikstra.h)
-- Python implementation can be found here [Djikstra in Python](algorithms/Dijkstra.py)
+- C implementation can be found here [Dijkstra in C](c-code/algorithms/djikstra.h)
+- Python implementation can be found here [Dijkstra in Python](algorithms/Dijkstra.py)
 
-### 4.4.1 - Using Priority Queues
-The approach to implementing Djikstra was to leverage a priority queue data structure to store the nodes that were visited.  The priority queue is implemented using a min heap. The function performs Djikstra on the graph and returns the order of explored nodes and shortest path from source node.
+### 4.4.1—Using Priority Queues
+The approach to implementing Dijkstra was
+to leverage a priority queue data structure to store the nodes that were visited.
+The priority queue is implemented using a min heap.
+The function performs Dijkstra on the graph
+and returns the order of explored nodes and the shortest path from the source node.
 
 ```Python
 def dijkstra_path(graph, source_node_name, destination_node_name):
@@ -612,7 +636,12 @@ def dijkstra_path(graph, source_node_name, destination_node_name):
 
 
 ### 4.4.2 - Using Arrays
-However the C implementation of Djikstra does not use a priority queue, instead it uses a simple array to store the nodes that were visited.  The array is then passed into a function called `find_min_node` which returns the index of the node with the smallest distance.  The function performs Djikstra on the graph and returns the order of explored nodes and shortest path from source node.
+However, the C implementation of Dijkstra does not use a priority queue;
+instead it uses a simple array to store the nodes that were visited.
+The array is then passed into a function called `find_min_node`
+which returns the index of the node with the smallest distance.
+The function performs Dijkstra on the graph
+and returns the order of explored nodes and the shortest path from the source node.
 
 ```C
 int* Dijkstra(int sourceNode, Graph *graph, bool print) {
@@ -692,25 +721,36 @@ int find_min_distance_node(const bool visited_list[], const int distances_list[]
 The python implementation can be found here : [A* Path Finder in Python](algorithms/A_star.py)
 
 ### 4.5.1 - Understanding A* Path Finder
-Like we saw earlier, A* algorithms are pretty similar to Dijsktra except the fact that they have a secret function called `heuristic` function which simply allows us to explore nodes on in the `direction` of the destination node. More on Heuristic functions later.
+Like we saw earlier,
+A* algorithms are pretty similar to Dijkstra except the fact
+that they have a secret function called `heuristic` function
+which simply allows us to explore nodes on in the `direction` of the destination node.
+More on Heuristic functions later.
 
-Apart from the heuristics, there are a few additional components that are required to implement A* path finder.
+Apart from the heuristics, there are a few additional components that are required to implement A* pathfinder.
 For every node, we need to keep track of the following :
 - `g` - the distance from the source node to the current node.
 - `h` - the heuristic distance from the current node to the destination node.
 - `f` - the sum of `g` and `h`. This is the distance from the source node to the destination node via the current node.
 - `parent` - the previous node that was visited before the current node.
 
-The implementation uses a the concept of `closed_set` and an `open_set`. The `closed_set` is a set of nodes that have been visited. The `open_set` is a set of nodes that are yet to be visited. The `open_set` is implemented using a priority queue. The priority queue always returns the node with the smallest `f` value. The `open_set` is initialized with the source node. The `closed_set` is initialized as an empty set.
+The implementation uses a concept of `closed_set` and an `open_set`.
+The `closed_set` is a set of nodes that have been visited.
+The `open_set` is a set of nodes that are yet to be visited.
+The `open_set` is implemented using a priority queue.
+The priority queue always returns the node with the smallest `f` value.
+The `open_set` is initialized with the source node.
+The `closed_set` is initialized as an empty set.
 
 ### 4.5.2 - Implementation
-There are two ways in  which the algorithm can end:
+There are two ways in which the algorithm can end:
 - If we find the destination node, we can stop the algorithm.
-- If the `open_set` = unvisited reachable nodes is empty, we can stop the algorithm.
+- If the `open_set` = unvisited reachable nodes are empty, we can stop the algorithm.
   
 So let's understand how it is implemented step by step.
 1. ***Part 1 - Initialize*** :
-   Similar to Djikstra, mark all nodes at `inf` distance away from the starting node. The starting node itself is at distance 0.
+   Similar to Dijkstra, mark all nodes at `inf` distance away from the starting node.
+   The starting node itself is at distance 0.
    ```Python
     open_unvisited_set = []  # unvisited nodes
     closed_visited_set = set()  # visited nodes
@@ -744,7 +784,7 @@ So let's understand how it is implemented step by step.
       Hence, for all neighbors of the current node, we do the following:
       1. Calculate the `tentative_g` value which is the `g` value of the current node + the distance between the current node and the neighbor.
       2. If is already visited and the `tentative_g` value is greater than the `g` value of the neighbor, we skip it.
-      3. If the neighbour is not already visited OR tentative_g is less than the `g` value of the neighbor, we update the `g` value, `h` value and `f` value of the neighbor.
+      3. If the neighbor is not already visited OR tentative_g is less than the `g` value of the neighbor, we update the `g` value, `h` value and `f` value of the neighbor.
       4. If the neighbor is not in the `open_unvisited_set`, we add it to the `open_unvisited_set`.
       ```Python
       for neighbor in current_node.get_neighbors(graph):
@@ -803,7 +843,7 @@ There are several options for heuristic functions, and the commonly used ones in
    
    $h(A, B) = \sqrt{(x2 - x1)^2 + (y2 - y1)^2}$
 
-3. ***Diagonal Distance Heuristic:*** - This heuristic calculates the maximum of the absolute differences of the x and y coordinates. It's associated with the L-infinity norm. The diagonal distance heuristic estimates the maximum distance between the two points and is particularly suitable for grid-based environments allowing horizontal, vertical, and diagonal movement.
+3. ***Diagonal Distance Heuristic:*** - This heuristic calculates the maximum of the absolute differences of the x and y coordinates. It's associated with the L-infinity norm. The diagonal distance heuristically estimates the maximum distance between the two points and is particularly suitable for grid-based environments allowing horizontal, vertical, and diagonal movement.
       
       $h(A, B) = d + (\sqrt{2} - 2) * min(d_x, d_y)$
       
@@ -880,7 +920,7 @@ def a_star_destination(graph, source_node_name, destination_node_name):
                 neighbor.f = neighbor.g + neighbor.h
                 neighbor.parent = current_node
 
-                # if neighbour is not in the unvisited set, add it to visit again
+                # if neighbor is not in the unvisited set, add it to visit again
                 if neighbor not in open_unvisited_set:
                     heapq.heappush(open_unvisited_set, (neighbor.f, neighbor))
 
@@ -909,12 +949,12 @@ The computational complexity of an algorithm is a measure of the amount of time 
 
 ### 5.1.1 - Time Complexity Analysis
 1. ***Initialization:*** The initialization step involves setting up various data structures and initial values for nodes. This step takes constant time.
-2. ***While loop:*** The while loop iterates over all the nodes in the graph. The number of iterations depends on the number of nodes in the graph. Hence, the time complexity of the while loop is $O(V ∗ logV + E)$ , where V is the number of nodes in the graph and E is the number of edges in the graph.
+2. ***While loop:*** The while loop iterates over all the nodes in the graph. The number of iterations depends on the number of nodes in the graph. Hence, the time complexity of the while loop is $O(V ∗ logV + E)$, where V is the number of nodes in the graph and E is the number of edges in the graph.
    1. ***Heap Operations:*** The heapq operations (heappop and heappush) take logarithmic time complexity $(O(log n))$ where n is the number of nodes in the heap.
    2. ***For loop:*** The for loop iterates over all the neighbors of the current node. The number of iterations depends on the number of neighbors of the current node. Hence, the time complexity of the for loop is $O(E)$, where E is the number of edges in the graph.
    3. ***Heuristic Function:*** The heuristic function takes constant time.
 3. ***Backtracking*** : The backtracking step involves following the parent pointers from the destination node to the source node to construct the path.
-      - n the worst case, where the path has many turns or changes in direction, the backtracking step would require traversing all nodes in the path, which takes $O(V)$ time.
+      - in the worst case, where the path has many turns or changes in direction, the backtracking step would require traversing all nodes in the path, which takes $O(V)$ time.
 
 ***Combining these complexities:***
 1. ***Initialization:*** $O(1)$
@@ -934,15 +974,15 @@ The space complexity is primarily determined by the data structures used to stor
 2. ***Closed Set:*** The closed set is a set that stores nodes that have been visited and expanded. The closed set can contain at most V nodes, where V is the number of nodes in the graph. Hence, the space complexity of the closed set is $O(V)$.
 3. ***Explored Nodes:*** The explored nodes list stores the indices of all the nodes that have been visited. The explored nodes list can contain at most V nodes, where V is the number of nodes in the graph. Hence, the space complexity of the explored nodes list is $O(V)$.
 
-Overall, the space complexity is dominated by the open set, closed set, and explored nodes list, resulting in a space complexity of $O(V)$.
+Overall, the space complexity is dominated by the open set, closed set, and explored nodes' list, resulting in a space complexity of $O(V)$.
 
 ## 5.2 - Best, Worst, and Average Case Analysis
 
-| Approach      | Time Complexity       | Space Complexity  |
-| ---           |----------------       | ---               |
-| Best Case     | $O(d)$                | $O(V)$          |
-| Worst Case    | $O(V * log V + E)$    | $O(V)$        |
-| Average Case  | $O(V * log V + P)$    | $O(V)$        |
+| Approach     | Time Complexity    | Space Complexity |
+|--------------|--------------------|------------------|
+| Best Case    | $O(d)$             | $O(V)$           |
+| Worst Case   | $O(V * log V + E)$ | $O(V)$           |
+| Average Case | $O(V * log V + P)$ | $O(V)$           |
 
 ### 5.2.1 - Best Case
 
@@ -970,11 +1010,11 @@ Time Complexity: $O(V * log V + P)$, where V is the number of nodes in the graph
 In this section, we will compare A* search with two other graph search algorithms: breadth-first search (BFS) and Dijkstra’s algorithm.
 
 
-| Approach      | Time Complexity       | Space Complexity  |
-| ---           |----------------       | ---               |
-| A*            | $O(V * log V + P)$    | $O(V + E)$        |
-| BFS           | $O(V + E)$            | $O(V + E)$        |
-| Dijkstra      | $O(V * log V + E)$    | $O(V + E)$        |
+| Approach | Time Complexity    | Space Complexity |
+|----------|--------------------|------------------|
+| A*       | $O(V * log V + P)$ | $O(V + E)$       |
+| BFS      | $O(V + E)$         | $O(V + E)$       |
+| Dijkstra | $O(V * log V + E)$ | $O(V + E)$       |
 
 where V is the number of nodes in the graph, E is the number of edges in the graph, and P is the number of nodes in the path.
 
@@ -990,7 +1030,7 @@ BFS explores nodes level by level from the source until the goal is found. While
 Dijkstra's algorithm is a weighted graph search algorithm that finds the shortest path between the source and the goal. It is similar to BFS, but instead of exploring nodes level by level, it explores nodes in order of increasing distance from the source. In terms of time complexity, Dijkstra’s algorithm has a worst-case time complexity of $O(VlogV+E)$, where V is the number of nodes and E is the number of edges in the graph. This is due to the need to maintain a priority queue of nodes to explore.
 
 
-# 6 - Emperical Analysis
+# 6 - Empirical Analysis
 
 ## 6.1 - Overview
 
@@ -1087,15 +1127,18 @@ class DatasetGenerator:
 Maze datasets are generated using the following parameters:
 1. **Grid Size:** Signifies the size of the maze. The maze is a square grid of size (grid_size x grid_size).
    - The grid sizes used are 15x15, 50x50, and 100x100.
-2. **Loop Density:** Signifies the density of loops in the maze. The amount of obstacles are inversely proportional to the loop density. The higher the loop density, the lesser the obstacles.
+2. **Loop Density:** Signifies the density of loops in the maze. The number of obstacles is inversely proportional to the loop density. The higher the loop density, the lesser the obstacles.
    - The loop densities used are 1, 0.5, and 0.1.
 3. **Start and Goal:** The start is always set to the top-left corner of the maze, and the goal is randomly generated.
    - The goal is randomly generated for each maze.
 
-<!--TODO : insert images of different loops and sizes-->
+<!--TODO: insert images of different loops and sizes-->
 
 ## 6.4 - Maze Solving
-Once the mazes are generated and saved as CSV files in `tests\maze-csvs` they are loaded into the [Emperical Timer.py](tests\emperical_timer.py) file. This file has a function called `run_all_algos` which solves the mazes using all the four algorithms covered in this report. The results are then saved as CSV files in the [maze-results.csv](tests\maze-results.csv) directory.
+Once the mazes are generated and saved as CSV files in `tests\maze-csvs` they are loaded into the [emperical_timer.py](tests\emperical_timer.py) file.
+This file has a function called `run_all_algos`
+which solves the mazes using all the four algorithms covered in this report.
+The results are then saved as CSV files in the [maze-results.csv](tests\maze-results.csv) directory.
 
 ```Python
 def run_all_algos(csv_files, algos):
@@ -1141,7 +1184,8 @@ def run_all_algos(csv_files, algos):
 ```
 
 ## 6.5 - Results and Metrics
-The results are stored in [maze-results.csv](tests\maze-results.csv). They can are then vizualized using the [pyamaze_Vizs.py](view/Pyamaze_Vizs.py) file. 
+The results are stored in [maze-results.csv](tests\maze-results.csv).
+They can be then visualized using the [pyamaze_Vizs.py](view/Pyamaze_Vizs.py) file. 
 
 The measurement metrics used are:
 1. **Time:** The time taken to solve the maze.
@@ -1149,8 +1193,9 @@ The measurement metrics used are:
 3. **Nodes Explored:** The number of nodes explored by the algorithm.
 
 ## 6.6 - 15x15 Results
-This is a sample vizualization of how DFS solves a maze of size 20x20 with loop density 0.5. The red nodes are the explored nodes, and the yellow nodes are the nodes in the shortest path.
-![Maze-DFS](view/graphics/20x20-DFS.gif)
+This is a sample visualization of how DFS solves a maze of size 20x20 with loop density 0.5.
+The red nodes are the explored nodes, and the yellow nodes are the nodes in the shortest path.
+![Maze-DFS](view/images/20x20-DFS.gif)
 
 The following table shows the results for mazes of size 15x15.
 The time is measured in milliseconds, and the path length and nodes explored are measured in number of nodes.
@@ -1177,7 +1222,7 @@ The time is measured in milliseconds, and the path length and nodes explored are
 
 ## 6.7 - 50x50 Results 
 This is a visualization of how BFS algorithm solves a maze of size 2x20 with loop density 0.5
-![Maze-BFS](view/graphics/20x20-BFS.gif)
+![Maze-BFS](view/images/20x20-BFS.gif)
 The following table shows the results for mazes of size 50x50.
 
 | Loops    | Algorithm | Time (ms)         | Path Length | Nodes Explored |
@@ -1204,7 +1249,7 @@ The following table shows the results for mazes of size 50x50.
 
 ## 6.8 - 100x100 Results 
 This is a visualization of how A* algorithm solves a maze of size 20x20 with loop density 0.5
-![Maze-A*](view/graphics/20x20-Astar.gif)
+![Maze-A*](view/images/20x20-Astar.gif)
 
 | Loops   | Algorithm | Time (ms)           | Path Length | Nodes Explored |
 |---------|-----------|---------------------|-------------|----------------|
@@ -1228,8 +1273,8 @@ This is a visualization of how A* algorithm solves a maze of size 20x20 with loo
 | $0.1$   | DFS       | 6513.01             | 2366        | 5107           |
 
 This is a visualization of how Dijkstra algorithm solves a maze of size 20x20 with loop density 0.5
-![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)
-<!-- TODO : maybe use different heuristics? and their results -->
+![Maze-Dijkstra](view/images/20x20-Dijkstra.gif)
+<!-- TODO: maybe use different heuristics? and their results -->
 
 
 
@@ -1238,10 +1283,10 @@ This is a visualization of how Dijkstra algorithm solves a maze of size 20x20 wi
 In this section, we delve into the outcomes of our empirical analysis, offering an evaluation of algorithmic performance, insights into implications, and a discussion of limitations.
 
 ### 7.1.1 - Visualizations of Maze Solutions
-|   |  |
-| ------------- | ------------- |
-| Djikstra![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)  | A*![Maze-A*](view/graphics/20x20-Astar.gif) |
-|BFS![Maze-BFS](view/graphics/20x20-BFS.gif)| DFS![Maze-DFS](view/graphics/20x20-DFS.gif) |
+|                                                          |                                           |
+|----------------------------------------------------------|-------------------------------------------|
+| Dijkstra![Maze-Dijkstra](view/images/20x20-Djikstra.gif) | A*![Maze-A*](view/images/20x20-Astar.gif) |
+| BFS![Maze-BFS](view/images/20x20-BFS.gif)                | DFS![Maze-DFS](view/images/20x20-DFS.gif) |
 
 ## 7.1 - Summary of Results
 
@@ -1263,11 +1308,11 @@ Summarizing the outcomes of our experiments:
 
 In the context of the maze, A* emerges as the most efficient algorithm. Its knack for finding the shortest path with minimal node exploration roots in its admissible and consistent heuristic function. This characteristic guarantees the shortest path discovery. Conversely, if a non-admissible or inconsistent heuristic function were employed, A*'s performance might differ.
 
-![Size-15x15](view/graphics/Analysis_for_size_15x15.png)
+![Size-15x15](view/images/Analysis_for_size_15x15.png)
 
-![Size-50x50](view/graphics/50x50_allcomplexities.png)
+![Size-50x50](view/images/50x50_allcomplexities.png)
 
-![Size-100x100-withoutDFS](view/graphics/100x100_all_complexities.png)
+![Size-100x100-withoutDFS](view/images/100x100_all_complexities.png)
 
 Insight into graphs:
 1. Scaling Effect on Node Exploration:
@@ -1275,7 +1320,7 @@ Insight into graphs:
 2. Dijkstra and BFS Node Exploration.
    - Notably, the graphs reveal a similarity between Dijkstra's and BFS algorithms in terms of the number of nodes explored before discovering the optimal path. This similarity arises from the shared trait of these algorithms, where they systematically explore possible paths to reach the goal. However, while their exploration patterns align, the time taken by each algorithm might still differ due to their unique operational characteristics.
 
-![Size-100x100](view/graphics/100x100_Low.png)
+![Size-100x100](view/images/100x100_Low.png)
 
 The graph depicting DFS exploration in a 100x100 maze accentuates the algorithm's suboptimal behavior. DFS explores an excessive number of nodes before settling on a path. This behavior often results in paths that are far from optimal. This observation underscores the trade-off inherent in DFS between exploration depth and optimal path identification.
 
@@ -1284,15 +1329,15 @@ The graph depicting DFS exploration in a 100x100 maze accentuates the algorithm'
 The following are the graphs for time taken by the algorithms to find the shortest path in mazes of different sizes and complexities.
 
 ![15x15Time](view/graphics/Time%20Analysis%20-%2015x15.png)
-![50x50Time](view/graphics/Time_analysis_50x50.png))
+![50x50Time](view/images/Time_analysis_50x50.png))
 ![100x100Time](view/graphics/Time%20Analysis%20-%20100x100.png)
 
 
 1. **BFS performs slightly better than Dijkstra in terms of time taken**
    - Although Dijkstra and BFS have different time complexities in theory, in practice, they take almost the same time to find the shortest path. This is because the time complexity of Dijkstra and BFS is dependent on the number of nodes in the graph. 
-   - ![compiled](view/graphics/timeComparison.png)
-2. **A star and BFS having the same time complexity in the first case**
-   - In the first graph we can see that the time taken by A* and BFS is pretty much the same, even though BFS explored more nodes there. This is because BFS is a brute force algorithm and it explores all the nodes in the graph. On the other hand, A* is an informed search algorithm and it uses a heuristic function to find the shortest path. It is maybe because of the additional complexities of A* that BFS is able to find the shortest path in the same time as A*.
+   - ![compiled](view/images/timeComparison.png)
+2. **A star and BFS have the same time complexity in the first case**
+   - In the first graph, we can see that the time taken by A* and BFS is pretty much the same, even though BFS explored more nodes there. This is because BFS is a brute force algorithm, and it explores all the nodes in the graph. On the other hand, A* is an informed search algorithm, and it uses a heuristic function to find the shortest path. It is maybe because of the additional complexities of A* that BFS is able to find the shortest path at the same time as A*.
 
 Below is a complied graph of the time taken by the algorithms to find the shortest path in mazes of different sizes and complexities.
 
@@ -1302,7 +1347,7 @@ In this section, we embark on a comparison between our empirical findings and th
 
 Our experimental results often align with the theoretical analysis, reinforcing the credibility of both approaches. For instance:
 
-1. The theoretical analysis projected A* as a promising pathfinding algorithm due to its incorporation of heuristic functions. Our empirical findings affirm this projection, demonstrating A*'s consistent outperformance in terms of time efficiency and nodes explored.
+1. The theoretical analysis projected A* as a promising pathfinding algorithm due to its incorporation of heuristic functions. Our empirical findings affirm this projection, demonstrating A*'s consistent outperform in terms of time efficiency and nodes explored.
 2. The theoretical consideration of Dijkstra's algorithm as a meticulous pathfinder is substantiated by our results. Dijkstra's indeed explores extensive paths to identify the shortest route, often exhibiting comparable performance with BFS in terms of nodes explored.
 3. We also understood that DFS is a suboptimal pathfinder, often failing to identify the shortest path. Our empirical findings corroborate this observation, with DFS often exploring more nodes than other algorithms before identifying a path.
 
@@ -1312,7 +1357,7 @@ The following graph shows the comparison between algorithms across datasets.
 
 Disagreements
 1. The theoretical analysis projected a big difference between Dijkstra's and BFS in terms of time taken. However, our empirical findings reveal a more nuanced picture, with BFS often outperforming Dijkstra's in terms of time taken. This discrepancy arises from the fact that BFS explores fewer nodes than Dijkstra's, thereby consuming less time. However, BFS's time efficiency is often offset by its extensive node exploration, which is often comparable to Dijkstra's. This observation underscores the importance of considering both time and node exploration when evaluating algorithmic performance.
-2. There wasn't a big difference between the time complexities of Dijkstra and A* in theory, however, in practice, A* was much faster than Dijkstra. 
+2. There wasn't a big difference between the time complexities of Dijkstra and A* in theory; however, in practice, A* was much faster than Dijkstra. 
 
 
 

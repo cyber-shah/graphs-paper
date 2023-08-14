@@ -9,7 +9,7 @@
 
 # 1 - Abstract
 
-This report aims to comprehensively explore the implementation and performance of key pathfinding algorithms: Depth First Search, Breadth First Search, Dijkstra's Algorithm, and A* Algorithm. Each algorithm will be scrutinized in terms of theoretical foundations, practical implementation details, rigorous testing, and insightful discussions. The overarching goal is to gain a profound understanding of these algorithms' inner workings and their efficacy across various scenarios.
+This report aims to comprehensively explore the implementation and performance of A* pathfinding algorithm and compare it with other pathfinding algorithms. The algorithms covered in this report are, Depth First Search, Breadth First Search, Dijkstra's Algorithm, and A* Algorithm. Each algorithm will be scrutinized in terms of theoretical foundations, practical implementation details, rigorous testing, and insightful discussions. The overarching goal is to gain a profound understanding of these A* algorithms' inner workings and their efficacy across various scenarios.
 
 The report delves into the nuances of each algorithm, dissecting their strengths and weaknesses, and uncovers their optimal use cases. Thorough testing is conducted using a diverse set of criteria, including the shortest path determination, nodes explored, time and memory utilization, and adaptability to distinct graph configurations. The selected testing conditions encompass a spectrum of scenarios, ranging from straightforward weighted graphs to intricate mazes replete with obstacles.
 
@@ -96,7 +96,7 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
        - Depth-First Search is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges. 
        - It follows a single path until it reaches a dead end. It then backtracks to the previous node and explores the next path. It keeps doing this until it reaches the destination node. 
        - It then backtracks from the destination node to the source node to find the shortest path. It uses a stack to keep track of the nodes that need to be explored. It uses a parent array to keep track of the path. The parent array is used to backtrack from the destination node to the source node. The parent array is also used to find the number of nodes explored to find the shortest path.
-        ![DFS-basic](view/graphics/basic-DFS.gif)
+       - ![DFS-basic](view/graphics/basic-DFS.gif)
    3.  **_Advantages_**: 
        - The advantage of DFS is that it is basic to implement. 
        - It is also very fast and uses very little memory. 
@@ -149,7 +149,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
        - It operates in a similar way to DFS, but it uses a queue instead of a stack. 
        - It starts from the source node and explores it neighbors in `layers`. Layers are nothing but the nodes that are at a distance of `n` from the source node. So the first layer contains nodes that are at a distance of 1 from the source node. The second layer contains nodes that are at a distance of 2 from the source node and so on.
        - It explores the first layer first, then the second layer and so on. This means that nodes closer are explored first and nodes farther away are explored later.
-   ![BFS-basic](view/graphics/basic-BFS.gif)
+       - ![BFS-basic](view/graphics/basic-BFS.gif)
 3. **_Advantages_**: 
       - BFS is guaranteed to find the shortest path between the source node and the destination node.
       - If the graph is connected, then BFS can be used to find the shortest path between all the nodes in the graph.
@@ -185,7 +185,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
       - While visiting nodes it maintains a distance array which stores the distance of each node from the source node. Initially, the distance of all the nodes is set to infinity. And the distance of the source node is set to 0. 
       - These distances are updated as the algorithm progresses.
       - The process ends when all the nodes have been visited and returns a list of shortest distances from the source node to all the other nodes.   
-      <img src = https://upload.wikimedia.org/wikipedia/commons/e/e4/DijkstraDemo.gif> 
+      - <img src = https://upload.wikimedia.org/wikipedia/commons/e/e4/DijkstraDemo.gif> 
       Image source: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:DijkstraDemo.gif") 
 3. **_Advantages_**: 
    - Dijkstra's Algorithm is guaranteed to find the shortest path between the source node and the destination node.
@@ -219,7 +219,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
       - Heuristics involve estimating the distance between two nodes, specifically between the current node and the destination node. This estimation guides the algorithm in its exploration.
       - Unlike exhaustive searches, heuristic algorithms, like A*, selectively explore the most promising routes. They leverage an educated guess to determine which path holds the greatest potential.
       - In the animation below, the algorithm prioritizes promising routes, resulting in more efficient exploration while disregarding less viable paths.
-      ![A*](view/graphics/basic-Astar.gif)
+      - ![A*](view/graphics/basic-Astar.gif)
 3. **_Advantages_**: 
       - A* boasts notable efficiency due to its effective utilization of heuristics.
      - Through the application of heuristics, A* excels at efficiently finding the shortest path in weighted graphs, often outperforming Dijkstra's Algorithm.
@@ -1308,12 +1308,47 @@ Disagreements
 1. The theoretical analysis projected a big difference between Dijkstra's and BFS in terms of time taken. However, our empirical findings reveal a more nuanced picture, with BFS often outperforming Dijkstra's in terms of time taken. This discrepancy arises from the fact that BFS explores fewer nodes than Dijkstra's, thereby consuming less time. However, BFS's time efficiency is often offset by its extensive node exploration, which is often comparable to Dijkstra's. This observation underscores the importance of considering both time and node exploration when evaluating algorithmic performance.
 2. There wasn't a big difference between the time complexities of Dijkstra and A* in theory; however, in practice, A* was much faster than Dijkstra. 
 
-
-
 # 8 - Conclusion
 
+In this study, we embarked on a comprehensive journey to explore and compare four fundamental pathfinding algorithms: Depth-First Search (DFS), Breadth-First Search (BFS), Dijkstra's Algorithm, and the A* Algorithm. Our analyses encompassed both theoretical considerations and practical implementations, shedding light on their distinctive characteristics and behaviors.
+
+DFS, characterized by its depth-first exploration of paths, demonstrated efficiency in traversing deep branches of a graph. However, its lack of optimality and sensitivity to graph structure rendered it less suitable for scenarios demanding shortest paths.
+
+BFS, with its breadth-first traversal strategy, exhibited efficient search across neighboring nodes. Its optimality in finding shortest paths makes it well-suited for unweighted graphs. Yet, its space complexity limitations may hinder its performance in memory-intensive applications.
+
+Dijkstra's Algorithm, driven by a priority queue, excelled in finding shortest paths within weighted graphs. Its optimality and applicability to a wide range of graphs make it a valuable tool for network optimization. However, its computational demands can restrict its feasibility for larger datasets.
+
+The A* Algorithm, the focal point of our study, seamlessly combined the strengths of Dijkstra's Algorithm and greedy best-first search. Its heuristic guidance enabled efficient exploration while guaranteeing optimality when an admissible heuristic was employed. The A* Algorithm's versatility and adaptability to various graph types mark it as a compelling choice for numerous pathfinding challenges.
+
+## 8.1 - Real World Applications
+
+The implications of our findings resonate strongly in real-world applications across diverse domains. Robotics navigation systems, for instance, benefit from efficient pathfinding to optimize movement through constrained spaces. The A* Algorithm's ability to factor in heuristic estimates and find shortest paths makes it a prime candidate for guiding robotic movement in complex environments.
+
+In the gaming industry, where immersive virtual worlds demand dynamic pathfinding, the A* Algorithm's balance between optimality and efficiency shines. It facilitates real-time path recalculations, ensuring seamless user experiences as characters navigate intricate terrains.
+
+## 8.2 - Limitations
+Our study, while illuminating the behaviors of various pathfinding algorithms, is not without limitations. It is essential to recognize these constraints to understand the scope of our findings and potential areas for future investigation.
+
+### 8.2.1 - Limited Dataset Diversity
+
+The datasets employed for testing predominantly consisted of maze-like structures. While these datasets allowed us to evaluate the algorithms' performance within confined and intricate spaces, they may not comprehensively represent the spectrum of scenarios encountered in real-world applications. Pathfinding challenges in urban planning, transportation networks, and virtual environments encompass a broader range of graph complexities. Exploring algorithm behavior across different graph types, such as sparse and dense graphs, networks, or grids, would provide a more nuanced understanding of their adaptability.
+
+### 8.2.2 - Single Heuristic Function
+
+Our empirical analyses focused on a single heuristic function for the A* Algorithm. While this heuristic function effectively guided the algorithm's search, its performance might not be universally applicable to all problem domains. Heuristic functions are domain-specific and can impact the algorithm's efficiency and accuracy. The choice of heuristic function can significantly influence the quality of heuristic guidance, potentially leading to variations in algorithm performance. Future studies could explore the impact of different heuristic functions on the A* Algorithm's behavior across various scenarios.
+
+### 8.2.3 - Lack of Dynamic Environments
+Our study primarily assessed algorithm performance on static environments. However, many real-world applications, such as robotics and gaming, involve dynamic environments where obstacles may move or change over time. Evaluating the algorithms' adaptability to dynamic scenarios could offer insights into their resilience and real-time decision-making capabilities.
+
+
+## 8.3 - Practical Takeaways
+When confronted with maze-like scenarios, DFS could expedite exploration through its deep-first approach. For scenarios requiring shortest paths in unweighted graphs, BFS offers an ideal solution. Dijkstra's Algorithm is a reliable choice for optimizing network routes, and the A* Algorithm shines in contexts that demand optimality alongside heuristic-guided efficiency.
+
+Balancing the strengths and weaknesses of these algorithms against the specific requirements of each application is key to selecting the most suitable pathfinding approach. Informed decisions can enhance computational efficiency and user experiences, ensuring the effective deployment of pathfinding solutions.
 
 # 9 - References
 
-
-
+1. [A* Search Algorithm](https://www.geeksforgeeks.org/a-search-algorithm/)
+2. atleast 2 peer reviewed academic works
+3. 5 overall
+4. Inline citations

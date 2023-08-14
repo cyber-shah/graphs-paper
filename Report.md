@@ -208,8 +208,8 @@ So by now we know how to solve the question of `is there a path between A to B?`
        - It operates in a similar way to DFS, but it uses a queue instead of a stack. 
        - It starts from the source node and explores it neighbors in `layers`. Layers are nothing but the nodes that are at a distance of `n` from the source node. So the first layer contains nodes that are at a distance of 1 from the source node. The second layer contains nodes that are at a distance of 2 from the source node and so on.
        - It explores the first layer first, then the second layer and so on. This means that nodes closer are explored first and nodes farther away are explored later.
-        ![BFS-basic](view/graphics/basic-BFS.gif)
-            > Fig 3. The above GIF shows the order in which BFS explores the nodes before reaching the destination node.
+       - ![BFS-basic](view/graphics/basic-BFS.gif)
+    > Fig 3. The above GIF shows the order in which BFS explores the nodes before reaching the destination node.
 3. **_Advantages_**: 
       - BFS is guaranteed to find the shortest path between the source node and the destination node.
       - If the graph is connected, then BFS can be used to find the shortest path between all the nodes in the graph.
@@ -278,7 +278,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
       - Heuristics involve estimating the distance between two nodes, specifically between the current node and the destination node. This estimation guides the algorithm in its exploration.
       - Unlike exhaustive searches, heuristic algorithms, like A*, selectively explore the most promising routes. They leverage an educated guess to determine which path holds the greatest potential.
       - In the animation below, the algorithm prioritizes promising routes, resulting in more efficient exploration while disregarding less viable paths.
-    ![A*](view/graphics/basic-Astar.gif)
+    - ![A*](view/graphics/basic-Astar.gif)
     > Fig 5. The above GIF shows the order in which A* Algorithm explores the nodes before reaching the destination node.
 3. **_Advantages_**: 
      - Through the application of heuristics, A* excels at efficiently finding the shortest path in weighted graphs, often outperforming Dijkstra's Algorithm.
@@ -580,7 +580,7 @@ def bfs_destination(graph, source_node_name, destination_node_name):
     return explored_nodes_indices, shortest_path
 ```
 
-Apart from the above function, we also implemented a function to build the shortest path from the parent map. It takes in the parent map, the source node index, and the destination node index. The function iterates through the parent map, starting from the destination node, and appends the current node index to the shortest path list. The function terminates when the current node index is equal to the source node index. The shortest path list is then reversed to obtain the correct order of nodes.
+Apart from the above function, the function to build the shortest path from the parent map. It takes in the parent map, the source node index, and the destination node index. The function iterates through the parent map, starting from the destination node, and appends the current node index to the shortest path list. The function terminates when the current node index is equal to the source node index. The shortest path list is then reversed to obtain the correct order of nodes.
 
 ```Python
 def build_shortest_path(parent_map, source_node_index, destination_node_index):
@@ -1414,7 +1414,7 @@ Balancing the strengths and weaknesses of these algorithms against the specific 
 <div id="reference-1"></div>
 
 1. BigThink, "The Science Behind Why UPS Trucks Avoid Making Left Turns", Robby Berman, 2017 https://bigthink.com/technology-innovation/the-science-behind-why-ups-trucks-avoid-making-left-turns/
-2. Happy Coding, "Pathfinding" : https://happycoding.io/tutorials/libgdx/pathfinding
+2. Image from : Happy Coding, "Pathfinding" : https://happycoding.io/tutorials/libgdx/pathfinding
 3. Even, Shimon (2011), Graph Algorithms (2nd ed.), Cambridge University Press, pp. 46–48, ISBN 978-0-521-73653-4. : https://books.google.co.in/books?id=m3QTSMYm5rkC&pg=PA46&redir_esc=y#v=onepage&q&f=false
 4.  Zuse, Konrad (1972), [Der Plankalkül](http://zuse.zib.de/item/gHI1cNsUuQweHB6) (in German), Konrad Zuse Internet Archive. See pp. 96–105 of the linked pdf file (internal numbering 2.47–2.56). 
     1.  Peer reviewed paper : Michael Coulombe,Massachusetts Institute of Technology, http://sigtbd.csail.mit.edu/pubs/2019/coulombe-mbfs.pdf
@@ -1422,10 +1422,3 @@ Balancing the strengths and weaknesses of these algorithms against the specific 
 " : https://en.wikipedia.org/wiki/Breadth-first_search
 6.  Frana, Phil (August 2010). ["An Interview with Edsger W. Dijkstra"](https://dl.acm.org/doi/10.1145/1787234.1787249). Communications of the ACM. 53 (8): 41–47. doi:10.1145/1787234.1787249. 
 7.  Peer reviewed paper : "A Formal Basis for the Heuristic Determination of Minimum Cost Paths Peter E. Hart, Nils J. Nilsson, Bertram Raphael, Volume: 4, Issue: 2, July 1968, https://ieeexplore.ieee.org/document/4082128/authors#authors 
-
-
-
-
-8. atleast 2 peer reviewed academic works
-9. 5 overall
-10. Inline citations

@@ -7,30 +7,83 @@
 * **Languages Used**: C and Python
 
 
+<!-- TOC -->
+
+- [Final Report - Path Finders and A\* Algorithm](#final-report---path-finders-and-a-algorithm)
+- [1 - Abstract](#1---abstract)
+- [2 - Introduction](#2---introduction)
+    - [ 2.1 - Why Path Finding? ](#-21---why-path-finding-)
+    - [ 2.2 - What is Path Finding? ](#-22---what-is-path-finding-)
+    - [ 2.3 - How do computers find paths? ](#-23---how-do-computers-find-paths-)
+    - [ 2.4 Algorithms covered ](#-24-algorithms-covered-)
+- [3 - Background](#3---background)
+  - [3.1 - The Path Existence Problem](#31---the-path-existence-problem)
+    - [3.1.1 - Depth First Search (DFS)](#311---depth-first-search-dfs)
+  - [3.2 - The Shortest Path Problem](#32---the-shortest-path-problem)
+    - [3.2.1 - Breadth First Search](#321---breadth-first-search)
+    - [3.2.2 - Dijkstra's Algorithm](#322---dijkstras-algorithm)
+    - [3.2.3 - A\* Algorithm](#323---a-algorithm)
+- [4 - Implementation Details](#4---implementation-details)
+  - [4.1 - Data Structures](#41---data-structures)
+    - [4.1.1 - Nodes](#411---nodes)
+    - [4.1.2 - Graphs](#412---graphs)
+    - [4.1.3 - Stacks and Queues](#413---stacks-and-queues)
+  - [4.2 - Depth First Search](#42---depth-first-search)
+    - [4.2.1 - Recursive Approach](#421---recursive-approach)
+    - [4.2.2 - Stack Approach](#422---stack-approach)
+  - [4.3 - Breadth First Search](#43---breadth-first-search)
+  - [4.4 - Dijkstra's Algorithm](#44---dijkstras-algorithm)
+    - [4.4.1 - Using Priority Queues](#441---using-priority-queues)
+    - [4.4.2 - Using Arrays](#442---using-arrays)
+  - [4.5 - A\* Path finder](#45---a-path-finder)
+    - [4.5.1 - Understanding A\* Path Finder](#451---understanding-a-path-finder)
+    - [4.5.2 - Implementation](#452---implementation)
+    - [4.5.3 - Heuristic Functions](#453---heuristic-functions)
+    - [4.5.4 - Putting it all together](#454---putting-it-all-together)
+- [5 - Theoretical Analysis](#5---theoretical-analysis)
+  - [5.1 - Computational Complexity](#51---computational-complexity)
+    - [5.1.1 - Time Complexity Analysis](#511---time-complexity-analysis)
+    - [5.1.2 - Space Complexity Analysis](#512---space-complexity-analysis)
+  - [5.2 - Best, Worst, and Average Case Analysis](#52---best-worst-and-average-case-analysis)
+    - [5.2.1 - Best Case](#521---best-case)
+    - [5.2.2 - Worst Case](#522---worst-case)
+    - [5.2.3 - Average Case](#523---average-case)
+  - [5.3 - Comparison with Other Algorithms](#53---comparison-with-other-algorithms)
+    - [5.3.1 - Breadth-First Search (BFS)](#531---breadth-first-search-bfs)
+    - [5.3.2 - Dijkstra's Algorithm](#532---dijkstras-algorithm)
+- [6 - Empirical Analysis](#6---empirical-analysis)
+  - [6.1 - Overview](#61---overview)
+  - [6.2 - Libraries Used](#62---libraries-used)
+  - [6.3 - Maze Dataset Generation](#63---maze-dataset-generation)
+  - [6.4 - Maze Solving](#64---maze-solving)
+  - [6.5 - Results and Metrics](#65---results-and-metrics)
+  - [6.6 - 15x15 Results](#66---15x15-results)
+  - [6.7 - 50x50 Results](#67---50x50-results)
+  - [6.8 - 100x100 Results](#68---100x100-results)
+- [7 - Results and Discussion](#7---results-and-discussion)
+    - [7.0 - Visualizations of Maze Solutions](#70---visualizations-of-maze-solutions)
+  - [7.1 - Summary of Results](#71---summary-of-results)
+  - [7.2 - Comparison of A\* based on nodes explored](#72---comparison-of-a-based-on-nodes-explored)
+  - [7.3 - Comparison of A\* based on time taken](#73---comparison-of-a-based-on-time-taken)
+  - [7.4 - Comparison with Theoretical analysis](#74---comparison-with-theoretical-analysis)
+- [8 - Conclusion](#8---conclusion)
+  - [8.1 - Real World Applications](#81---real-world-applications)
+  - [8.2 - Limitations](#82---limitations)
+    - [8.2.1 - Limited Dataset Diversity](#821---limited-dataset-diversity)
+    - [8.2.2 - Single Heuristic Function](#822---single-heuristic-function)
+    - [8.2.3 - Lack of Dynamic Environments](#823---lack-of-dynamic-environments)
+  - [8.3 - Practical Takeaways](#83---practical-takeaways)
+- [9 - References](#9---references)
+
+<!-- /TOC -->
+
 # 1 - Abstract
 
-This report aims to comprehensively explore the implementation and performance of A* pathfinding algorithm and compare it with other pathfinding algorithms. The algorithms covered in this report are, Depth First Search, Breadth First Search, Dijkstra's Algorithm, and A* Algorithm. Each algorithm will be scrutinized in terms of theoretical foundations, practical implementation details, rigorous testing, and insightful discussions. The overarching goal is to gain a profound understanding of these A* algorithms' inner workings and their efficacy across various scenarios.
+The main purpose of this report is to examine how A* pathfinding algorithm works and how it compares with other pathfinding algorithms. The report also covers Depth First Search, Breadth First Search, Dijkstra’s Algorithm, and explains their theory, implementation, testing, and discussion. The report aims to understand these algorithms deeply and how well they perform in different situations.
 
 The report delves into the nuances of each algorithm, dissecting their strengths and weaknesses, and uncovers their optimal use cases. Thorough testing is conducted using a diverse set of criteria, including the shortest path determination, nodes explored, time and memory utilization, and adaptability to distinct graph configurations. The selected testing conditions encompass a spectrum of scenarios, ranging from straightforward weighted graphs to intricate mazes replete with obstacles.
 
 As we progress through this exploration, the report will provide clarity on the reasons behind the chosen testing criteria and conditions, grounding our analysis in a solid rationale. Through this holistic investigation, readers will gain not only a deep comprehension of these fundamental pathfinding techniques but also insights into their applicability across real-world situations.
-
-<!-- The algorithms are tested on the following criteria:
-1. Shortest path
-2. Nodes explored to find the shortest path
-3. Time taken to find the shortest path
-4. Memory used to find the shortest path
-5. Performance on different graphs
-6. Performance on different grid sizes
-7. Performance on different obstacles
-8. Performance on different edge weights
-9. Varying start and end nodes
-
-The algorithms are tested on the following conditions:
-1. A simple graph weighted edges
-2. A grid of nodes each with uniform edge weight and no obstacles and a pretty straight forward shortest path
-3. A maze with obstacles and many shorter paths -->
-
 
 # 2 - Introduction
 
@@ -42,9 +95,7 @@ UPS says it saved 10 million gallons of fuel, avoided emission of 20,000 tons of
  <sup>[1](#reference-1)</sup>
 
 
-
-I was also interested in it because I am largely interested in video games and I wanted to learn how video games work. I also wanted to learn how self driving cars work. I learned that path finding is a very important part of both of these applications, and it solves a very important problem. A problem that we as humans encounter almost every day.
-
+I wanted to know more about this topic because I have a strong interest in video games and how they function. I also had questions about how self driving cars manage to navigate. I found out that determining the optimal path is a key component of both these fields, and it solves a frequent problem that we encounter in our everyday lives.
 
 <img src = https://happycoding.io/tutorials/libgdx/images/pathfinding-12.png> 
 
@@ -148,8 +199,8 @@ So by now we know how to solve the question of `is there a path between A to B?`
   
 ### 3.2.1 - Breadth First Search
 1. **_History_**:  
-      - "BFS and its application in finding connected components of graphs were invented in 1945 by Konrad Zuse, in his (rejected) Ph.D. thesis on the Plankalkül programming language, but this was not published until 1972." <sup>[4](#reference-2)</sup>
-      - " It was reinvented in 1959 by Edward F. Moore, who used it to find the shortest path out of a maze, and later developed by C. Y. Lee into a wire routing algorithm (published in 1961)." <sup>[5](#reference-2)</sup>
+      - "BFS and its application in finding connected components of graphs were invented in 1945 by Konrad Zuse, in his (rejected) Ph.D. thesis on the Plankalkül programming language, but this was not published until 1972." <sup>[4](#reference-1)</sup>
+      - " It was reinvented in 1959 by Edward F. Moore, who used it to find the shortest path out of a maze, and later developed by C. Y. Lee into a wire routing algorithm (published in 1961)." <sup>[5](#reference-1)</sup>
       - It was later rediscovered by Edsger Dijkstra in 1959. 
       - It is also known as the `Breadth First Traversal` or `Breadth First Walk`.
       - It is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges.
@@ -184,7 +235,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
 
 ### 3.2.2 - Dijkstra's Algorithm
 1. **_History_**:  
-      - Dijkstra's Algorithm was invented by Edsger Dijkstra in 1956. The technique first appeared as a solution to the problem of finding the shortest path between nodes in a weighted graph.
+      - Dijkstra's Algorithm was invented by Edsger Dijkstra in 1956. The technique first appeared as a solution to the problem of finding the shortest path between nodes in a weighted graph. <sup>[6](#reference-1)</sup>
       - It has been widely used in real-world applications, including routing in computer networks and navigation systems.
       - It is also known as the `Shortest Path First Algorithm`.
       - It was invented to solve the problem of finding the shortest path between nodes in a weighted graph.
@@ -202,7 +253,6 @@ So by now we know how to solve the question of `is there a path between A to B?`
    - It is also very efficient.
 4. **_Disadvantages_**:
    - Limited to Positive Weights: Dijkstra's algorithm is not well-suited for graphs with negative-edge weights, as negative cycles can lead to incorrect results or cause the algorithm to fail.
-   - Inapplicability to Negative Weights: The algorithm's reliance on selecting the minimum distance can break down when dealing with graphs containing negative-edge weights.
    - Potential Inefficiency on Large Graphs: While Dijkstra's algorithm provides optimal solutions, it might not be the most efficient choice for large graphs due to its time complexity.
 5. **_Pseudo code_**:
       ```
@@ -220,7 +270,7 @@ So by now we know how to solve the question of `is there a path between A to B?`
 
 ### 3.2.3 - A* Algorithm
 1.  **_History_**:
-      - A* was created by Peter Hart, Nils Nilsson and Bertram Raphael of Stanford Research Institute (now SRI International) in 1968. It was first published in the 1968 paper "A Formal Basis for the Heuristic Determination of Minimum Cost Paths".
+      - A* was created by Peter Hart, Nils Nilsson and Bertram Raphael of Stanford Research Institute (now SRI International) in 1968. It was first published in the 1968 paper "A Formal Basis for the Heuristic Determination of Minimum Cost Paths". <sup>[7](#reference-1)</sup>
       - It was created to solve the problem of finding the shortest path between nodes in a weighted graph, in a more efficient way.
       - It is a combination of Dijkstra's Algorithm and Greedy Best First Search.
 2. **_Overview of how it works_**:
@@ -228,9 +278,9 @@ So by now we know how to solve the question of `is there a path between A to B?`
       - Heuristics involve estimating the distance between two nodes, specifically between the current node and the destination node. This estimation guides the algorithm in its exploration.
       - Unlike exhaustive searches, heuristic algorithms, like A*, selectively explore the most promising routes. They leverage an educated guess to determine which path holds the greatest potential.
       - In the animation below, the algorithm prioritizes promising routes, resulting in more efficient exploration while disregarding less viable paths.
-      - ![A*](view/graphics/basic-Astar.gif)
+    ![A*](view/graphics/basic-Astar.gif)
+    > Fig 5. The above GIF shows the order in which A* Algorithm explores the nodes before reaching the destination node.
 3. **_Advantages_**: 
-      - A* boasts notable efficiency due to its effective utilization of heuristics.
      - Through the application of heuristics, A* excels at efficiently finding the shortest path in weighted graphs, often outperforming Dijkstra's Algorithm.
       - Notably, A* guarantees the discovery of the shortest path between the source and destination nodes when an admissible and consistent heuristic is employed.
 4. **_Disadvantages_**:
@@ -255,13 +305,11 @@ So by now we know how to solve the question of `is there a path between A to B?`
 # 4 - Implementation Details
 Initially, the decision was made to implement all the algorithms in C, driven by concerns related to speed and efficiency. Given its status as a low-level programming language, C emerged as the natural choice for this purpose. The complete C implementation can be accessed within the [c-code](c-code) directory. 
  
-However, as the implementation of Dijkstra's algorithm progressed, the necessity to subject the algorithms to rigorous testing across a spectrum of mazes and scenarios became apparent. This testing was intended to evaluate their performance under diverse conditions. To facilitate this assessment, the aspiration emerged to create animations that would offer insights into how the algorithms explore nodes, quantify the number of nodes each algorithm traverses before identifying the shortest path, and much more. In essence, the goal was to **visualize** the algorithms' behavior.
+As the implementation of Dijkstra’s algorithm advanced, the need to test the algorithms thoroughly on a range of mazes and situations became clear. This testing was meant to measure their performance under various conditions. To enable this evaluation, the ambition arose to create animations that would reveal how the algorithms examine nodes, count the number of nodes each algorithm visits before finding the shortest path, and more. In short, the aim was to visualize the algorithms’ behavior.
 
 > In general, all the python implementations are higher in completeness and functionality than the C implementations. A lot of functionality was added to the python implementations while the C implementations were being ported to python. So python implementations are an improvement over the C implementations.
 
-This is because I started with the C implementations and then moved to Python. So the C implementations are not as complete as the Python implementations. But they help in understanding the memory management and the data structures used in the Python implementations.
-
-However, as the implementation of Dijkstra's algorithm progressed, the necessity to subject the algorithms to rigorous testing across a spectrum of mazes and scenarios became apparent. This testing was intended to evaluate their performance under diverse conditions. To facilitate this assessment, the aspiration emerged to create animations that would offer insights into how the algorithms explore nodes, quantify the number of nodes each algorithm traverses before identifying the shortest path, and much more. In essence, the goal was to visualize the algorithms' behavior.
+This is because the report began with the C implementations and then switched to Python. So the C implementations are not as complete as the Python implementations. But they help in understanding the memory management and the data structures used in the Python implementations.
 
 Therefore, the shift to Python was motivated by the intention to holistically comprehend algorithmic behavior through animations, leveraging Python's high-level capabilities and visualization tools, while the initial implementation in C addressed concerns of speed and efficiency.
 
@@ -381,7 +429,7 @@ def set_edge_weighted(self, node1, node2, weight):
       self.number_of_edges += 1
 ```
 
-One notable difference was the use of a dictionary to store the nodes. This was done to make it easier to access the nodes. The dictionary uses the node name as the key and the node object as the value. This makes it easier to access the node object using the name of the node. The dictionary can be accessed using the `nodeNames` attribute of the graph object.
+A significant difference was the use of a dictionary to store the nodes. This was done to simplify the access to the nodes. The dictionary uses the node name as the key and the node object as the value. This makes it convenient to access the node object using the name of the node. The dictionary can be accessed using the `nodeNames` attribute of the graph object.
 
 ### 4.1.3 - Stacks and Queues
 The algorithms also use stacks and queues to keep track of the nodes that are visited.
@@ -698,7 +746,7 @@ int find_min_distance_node(const bool visited_list[], const int distances_list[]
 The python implementation can be found here: [A* Path Finder in Python](algorithms/A_star.py)
 
 ### 4.5.1 - Understanding A* Path Finder
-Like we saw earlier, A* algorithms are pretty similar to Dijkstra except the fact that they have a secret function called `heuristic` function which simply allows us to explore nodes on in the `direction` of the destination node. More on Heuristic functions later.
+Like we saw earlier, A* algorithms are pretty similar to Dijkstra except the fact that they have a secret function called `heuristic` function which simply allows us to explore nodes in the `direction` of the destination node. More on Heuristic functions later.
 
 Apart from the heuristics, there are a few additional components that are required to implement A* pathfinder.
 For every node, we need to keep track of the following :
@@ -762,7 +810,7 @@ So let's understand how it is implemented step by step.
             if neighbor in closed_visited_set and tentative_g >= neighbor.g:
                 continue
       ```
-5. ***Part 5 - A* Intelligence*** :
+5. ***Part 5 - A star Intelligence*** :
       This is where the intelligence of A* comes in. It compares the `g` values of the neighbors and chooses the one with the lowest `f` value. This is the node that is added to the `open_unvisited_set`.
       ```Python
             # if the neighbor is not already visited or
@@ -1000,7 +1048,7 @@ Dijkstra's algorithm is a weighted graph search algorithm that finds the shortes
 
 ## 6.1 - Overview
 
-In this section, we will analyze and compare the performance of the A* algorithm on different types of mazes. We will also compare the performance of the A* algorithm with other graph search algorithms such as Depth-first search, breadth-first search (BFS) and Dijkstra’s algorithm. This will help us understand conditions where A* performs well, and where it does not.
+In this section, we will analyze and compare the performance of the A* algorithm on different types of mazes. We will also compare the performance of the A* algorithm with other graph search algorithms such as Depth-first search(DFS), breadth-first search (BFS) and Dijkstra’s algorithm. This will help us understand conditions where A* performs well, and where it does not.
 
 ## 6.2 - Libraries Used
 There are two libraries used for analyzing the algorithms on mazes: `pygame` and `pyamaze`.
@@ -1242,7 +1290,7 @@ This is a visualization of how Dijkstra algorithm solves a maze of size 20x20 wi
 
 In this section, we delve into the outcomes of our empirical analysis, offering an evaluation of algorithmic performance, insights into implications, and a discussion of limitations.
 
-### 7.1.1 - Visualizations of Maze Solutions
+### 7.0 - Visualizations of Maze Solutions
 |   |  |
 | ------------- | ------------- |
 | Djikstra![Maze-Dijkstra](view/graphics/20x20-Djikstra.gif)  | A*![Maze-A*](view/graphics/20x20-Astar.gif) |
@@ -1293,11 +1341,11 @@ The following are the graphs for time taken by the algorithms to find the shorte
 
 1. **BFS performs slightly better than Dijkstra in terms of time taken**
    - Although Dijkstra and BFS have different time complexities in theory, in practice, they take almost the same time to find the shortest path. This is because the time complexity of Dijkstra and BFS is dependent on the number of nodes in the graph. 
-   - ![compiled](view/graphics/timeComparison.png)
 2. **A star and BFS having the same time complexity in the first case**
    - In the first graph we can see that the time taken by A* and BFS is pretty much the same, even though BFS explored more nodes there. This is because BFS is a brute force algorithm and it explores all the nodes in the graph. On the other hand, A* is an informed search algorithm, and it uses a heuristic function to find the shortest path. It is maybe because of the additional complexities of A* that BFS is able to find the shortest path at the same time as A*.
 
 Below is a complied graph of the time taken by the algorithms to find the shortest path in mazes of different sizes and complexities.
+![compiled](view/graphics/timeComparison.png)
 
 ## 7.4 - Comparison with Theoretical analysis
 
@@ -1369,14 +1417,15 @@ Balancing the strengths and weaknesses of these algorithms against the specific 
 2. Happy Coding, "Pathfinding" : https://happycoding.io/tutorials/libgdx/pathfinding
 3. Even, Shimon (2011), Graph Algorithms (2nd ed.), Cambridge University Press, pp. 46–48, ISBN 978-0-521-73653-4. : https://books.google.co.in/books?id=m3QTSMYm5rkC&pg=PA46&redir_esc=y#v=onepage&q&f=false
 4.  Zuse, Konrad (1972), [Der Plankalkül](http://zuse.zib.de/item/gHI1cNsUuQweHB6) (in German), Konrad Zuse Internet Archive. See pp. 96–105 of the linked pdf file (internal numbering 2.47–2.56). 
+    1.  Peer reviewed paper : Michael Coulombe,Massachusetts Institute of Technology, http://sigtbd.csail.mit.edu/pubs/2019/coulombe-mbfs.pdf
 5.  Wikipedia, "Breadth-first search
 " : https://en.wikipedia.org/wiki/Breadth-first_search
-6. Wikimedia Commons, "A demo of Dijkstra's algorithm based on Euclidean distance" : https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#/media/File:DijkstraDemo.gif
+6.  Frana, Phil (August 2010). ["An Interview with Edsger W. Dijkstra"](https://dl.acm.org/doi/10.1145/1787234.1787249). Communications of the ACM. 53 (8): 41–47. doi:10.1145/1787234.1787249. 
+7.  Peer reviewed paper : "A Formal Basis for the Heuristic Determination of Minimum Cost Paths Peter E. Hart, Nils J. Nilsson, Bertram Raphael, Volume: 4, Issue: 2, July 1968, https://ieeexplore.ieee.org/document/4082128/authors#authors 
 
 
 
 
-
-4. atleast 2 peer reviewed academic works
-5. 5 overall
-6. Inline citations
+8. atleast 2 peer reviewed academic works
+9. 5 overall
+10. Inline citations

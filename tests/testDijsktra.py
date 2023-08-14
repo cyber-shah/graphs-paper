@@ -10,7 +10,7 @@ class TestDijkstra(unittest.TestCase):
         string_distances = "a b 2\nb c 1\na c 4\nc d 2\na d 8"
 
         graph = GraphMakers.graph_from_string(string_vertices, string_distances)
-        shortest_path_list = Dijkstra.dijkstra(graph, 'a')
+        explored_nodes, shortest_path_list = Dijkstra.dijkstra_path(graph, 'a', 'd')
 
         self.assertEqual(0, shortest_path_list[0])
         self.assertEqual(2, shortest_path_list[1])

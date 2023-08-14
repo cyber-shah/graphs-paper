@@ -39,14 +39,18 @@ The algorithms are tested on the following conditions:
 Path finding has been a very important problem in computer science. It has been used in many applications such as logistics planning, the least cost call or IP routing, and gaming simulation. 
 I got really interested in it when I learned that a logistics company (UPS) collected years of data and used algorithms to navigate better.
 UPS says it saved 10 million gallons of fuel, avoided emission of 20,000 tons of CO2, and delivered 350,000 more packages a year, just due to efficient path finding!
-More on that here: [Science Behind UPS Trucks!](https://bigthink.com/technology-innovation/the-science-behind-why-ups-trucks-avoid-making-left-turns/)
+ <sup>[1](#reference-1)</sup>
+
+
 
 I was also interested in it because I am largely interested in video games and I wanted to learn how video games work. I also wanted to learn how self driving cars work. I learned that path finding is a very important part of both of these applications, and it solves a very important problem. A problem that we as humans encounter almost every day.
 
 
 <img src = https://happycoding.io/tutorials/libgdx/images/pathfinding-12.png> 
 
-Image Source: [Happy Coding/ Path finding](https://happycoding.io/tutorials/libgdx/pathfinding)
+> Fig. 1  <sup>[2](#reference-1)</sup>
+Shows how path finding usually works, it navigates inside a graph and uses edges and nodes to find the shortest path.
+
 
 ### <u> 2.2 - What is Path Finding? </u>
 Path finding is the process of finding a path between two points in a graph.
@@ -89,7 +93,7 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
 
 ### 3.1.1 - Depth First Search (DFS)
    1. **_History_**: 
-      - Depth-First search dates back to the 19th century. It was first used by French mathematician Charles Pierre Trémaux as a strategy for solving mazes. 
+      - Depth-First search dates back to the 19th century. It was first used by French mathematician Charles Pierre Trémaux as a strategy for solving mazes. <sup>[3](#reference-1)</sup>
       - DFS is pretty much the background for most of the modern day path finding algorithms. From Bellman Ford to Dijkstra to A* to Prim's Algorithm, have all built on top of DFS.
       - Its simplicity and efficiency makes it a very popular algorithm. It is also very easy to implement.
    2.  **Overview of how it works**:  
@@ -97,6 +101,7 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
        - It follows a single path until it reaches a dead end. It then backtracks to the previous node and explores the next path. It keeps doing this until it reaches the destination node. 
        - It then backtracks from the destination node to the source node to find the shortest path. It uses a stack to keep track of the nodes that need to be explored. It uses a parent array to keep track of the path. The parent array is used to backtrack from the destination node to the source node. The parent array is also used to find the number of nodes explored to find the shortest path.
        - ![DFS-basic](view/graphics/basic-DFS.gif)
+       - > Fig 2. The above GIF shows the order in which DFS explores the nodes before reaching the destination node.
    3.  **_Advantages_**: 
        - The advantage of DFS is that it is basic to implement. 
        - It is also very fast and uses very little memory. 
@@ -120,7 +125,7 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
             u := pop S;
             if (not visited[u]) then
                visited[u] := true;
-               for each unvisited neighbour w of u
+               for each unvisited neighbor w of u
                   push S, w;
       ```
 
@@ -129,27 +134,31 @@ The two algorithms that help us find out IF a path exists are: DFS and BFS.
 So by now we know how to solve the question of `is there a path between A to B?`. Now the next two algorithms will help us solve the question of `what is the shortest path between A to B?`.
 
 **_Use Cases_**:
-1. ***Shortest Path Algorithms:***
-    - BFS: It is used to find the shortest path between nodes in a graph, especially when the graph is unweighted or equally weighted. It can also be used to explore hierarchical structures or levels of depth in graphs, and to determine connected components in a graph.
-    - Dijkstra’s Algorithm: It is used to find the shortest path between nodes in a graph, especially when the graph is weighted. It can also be used for routing and navigation systems, network routing protocols, and resource management and allocation.
-    - Astar: It is an extension of Dijkstra’s algorithm that uses a heuristic function to guide the search towards the goal node. It can also be used for telecommunication networks, GPS navigation systems, network routing, and pathfinding in video games and robotics.
-2. ***Other Use Cases:***
-    - BFS: It can be used for web crawling, social network analysis, and peer-to-peer networks.
-    - Dijkstra’s Algorithm: It can be used for image segmentation, traffic engineering, and artificial intelligence.
-    - Astar: It can be used for natural language processing, machine learning, and computer vision.
-
+1. ***BFS***: 
+   - It is used to find the shortest path between nodes in a graph, especially when the graph is unweighted or equally weighted. 
+   - It can also be used to explore hierarchical structures or levels of depth in graphs, and to determine connected components in a graph.
+   - Applications include social networking websites, search engines, network broadcasting, and garbage collection.
+2. ***Dijkstra’s Algorithm*** : 
+   - It is used to find the shortest path between nodes in a graph, especially when the graph is weighted. 
+   - It can also be used for routing and navigation systems, network routing protocols, and resource management and allocation.
+   - Applications include GPS navigation systems, network routing systems, and maps.
+3. ***Astar***: 
+   - It is an extension of Dijkstra’s algorithm that uses a heuristic function to guide the search towards the goal node. 
+   - It can also be used for telecommunication networks, GPS navigation systems, network routing, and pathfinding in video games and robotics.
+  
 ### 3.2.1 - Breadth First Search
 1. **_History_**:  
-      - Breadth-First Search was invented by Konrad Zuse in 1945. 
+      - "BFS and its application in finding connected components of graphs were invented in 1945 by Konrad Zuse, in his (rejected) Ph.D. thesis on the Plankalkül programming language, but this was not published until 1972." <sup>[4](#reference-2)</sup>
+      - " It was reinvented in 1959 by Edward F. Moore, who used it to find the shortest path out of a maze, and later developed by C. Y. Lee into a wire routing algorithm (published in 1961)." <sup>[5](#reference-2)</sup>
       - It was later rediscovered by Edsger Dijkstra in 1959. 
       - It is also known as the `Breadth First Traversal` or `Breadth First Walk`.
       - It is a graph traversal algorithm that starts at a source node and explores the graph by traversing the edges.
-      - BFS is a core algorithm in computer science and is widely used in fields like network routing, social network analysis, and more.
 2.  **_Overview of how it works_**: 
        - It operates in a similar way to DFS, but it uses a queue instead of a stack. 
        - It starts from the source node and explores it neighbors in `layers`. Layers are nothing but the nodes that are at a distance of `n` from the source node. So the first layer contains nodes that are at a distance of 1 from the source node. The second layer contains nodes that are at a distance of 2 from the source node and so on.
        - It explores the first layer first, then the second layer and so on. This means that nodes closer are explored first and nodes farther away are explored later.
-       - ![BFS-basic](view/graphics/basic-BFS.gif)
+        ![BFS-basic](view/graphics/basic-BFS.gif)
+            > Fig 3. The above GIF shows the order in which BFS explores the nodes before reaching the destination node.
 3. **_Advantages_**: 
       - BFS is guaranteed to find the shortest path between the source node and the destination node.
       - If the graph is connected, then BFS can be used to find the shortest path between all the nodes in the graph.
@@ -185,8 +194,8 @@ So by now we know how to solve the question of `is there a path between A to B?`
       - While visiting nodes it maintains a distance array which stores the distance of each node from the source node. Initially, the distance of all the nodes is set to infinity. And the distance of the source node is set to 0. 
       - These distances are updated as the algorithm progresses.
       - The process ends when all the nodes have been visited and returns a list of shortest distances from the source node to all the other nodes.   
-      - <img src = https://upload.wikimedia.org/wikipedia/commons/e/e4/DijkstraDemo.gif> 
-      Image source: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:DijkstraDemo.gif") 
+    ![Dijkstra](view/graphics/basic-Djikstra.gif)
+    > Fig 4. The above GIF shows the order in which Dijkstra's Algorithm explores the nodes before reaching the destination node.
 3. **_Advantages_**: 
    - Dijkstra's Algorithm is guaranteed to find the shortest path between the source node and the destination node.
    - The basic concept is straightforward to understand and implement.
@@ -1346,9 +1355,28 @@ When confronted with maze-like scenarios, DFS could expedite exploration through
 
 Balancing the strengths and weaknesses of these algorithms against the specific requirements of each application is key to selecting the most suitable pathfinding approach. Informed decisions can enhance computational efficiency and user experiences, ensuring the effective deployment of pathfinding solutions.
 
+<!-- auto references -->
+[1]: https://bigthink.com/technology-innovation/the-science-behind-why-ups-trucks-avoid-making-left-turns/
+[2]:(https://happycoding.io/tutorials/libgdx/pathfinding)
+[3]: (https://books.google.co.in/books?id=m3QTSMYm5rkC&pg=PA46&redir_esc=y#v=onepage&q&f=false)
+
+
 # 9 - References
 
-1. [A* Search Algorithm](https://www.geeksforgeeks.org/a-search-algorithm/)
-2. atleast 2 peer reviewed academic works
-3. 5 overall
-4. Inline citations
+<div id="reference-1"></div>
+
+1. BigThink, "The Science Behind Why UPS Trucks Avoid Making Left Turns", Robby Berman, 2017 https://bigthink.com/technology-innovation/the-science-behind-why-ups-trucks-avoid-making-left-turns/
+2. Happy Coding, "Pathfinding" : https://happycoding.io/tutorials/libgdx/pathfinding
+3. Even, Shimon (2011), Graph Algorithms (2nd ed.), Cambridge University Press, pp. 46–48, ISBN 978-0-521-73653-4. : https://books.google.co.in/books?id=m3QTSMYm5rkC&pg=PA46&redir_esc=y#v=onepage&q&f=false
+4.  Zuse, Konrad (1972), [Der Plankalkül](http://zuse.zib.de/item/gHI1cNsUuQweHB6) (in German), Konrad Zuse Internet Archive. See pp. 96–105 of the linked pdf file (internal numbering 2.47–2.56). 
+5.  Wikipedia, "Breadth-first search
+" : https://en.wikipedia.org/wiki/Breadth-first_search
+6. Wikimedia Commons, "A demo of Dijkstra's algorithm based on Euclidean distance" : https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#/media/File:DijkstraDemo.gif
+
+
+
+
+
+4. atleast 2 peer reviewed academic works
+5. 5 overall
+6. Inline citations

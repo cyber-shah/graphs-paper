@@ -1195,7 +1195,7 @@ def run_all_algos(csv_files, algos):
 ```
 
 ## 6.5 - Results and Metrics
-The results are stored in [maze-results.csv](tests\maze-results.csv). They can are then visualized using the [pyamaze_Vizs.py](view/Pyamaze_Vizs.py) file. 
+The results are stored in [maze-results.csv](tests\maze-results.csv). They can are then visualized using the [pyamaze_Vizs.py](tests/Pyamaze_tests.py) file. 
 
 The measurement metrics used are:
 1. **Time:** The time taken to solve the maze.

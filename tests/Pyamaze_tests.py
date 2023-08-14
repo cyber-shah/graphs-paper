@@ -55,7 +55,7 @@ def pymaze():
     # loop percent means multiple paths in the maze
     custom_maze.CreateMaze(goal_row, goal_col, loopPercent=30, loadMaze='../tests/20x20-RandomMaze.csv')
 
-    custom_graph = graph_from_csv('../tests/20x20-RandomMaze.csv')
+    custom_graph = graph_from_csv('20x20-RandomMaze.csv')
 
     if algorithm == 'Dijkstra':
         explored_nodes_indexes, shortest_path = Dijkstra.dijkstra_path(

@@ -2,7 +2,7 @@
 
 # Final Report - Path Finders and A* Algorithm
 * **Author**: Pranchal Shah
-* **GitHub Repo**: [5008 Repo](www.github.com/cyber-shah/5008-Project) Also refer [Main Repo](https://github.com/cyber-shah/CS-5008/tree/mainn/final-research-PathFinders-Python)
+* **GitHub Repo**: [final-paper](https://github.com/cyber-shah/final-research-paper/tree/main)  Also refer for full commit history [Main Repo](https://github.com/cyber-shah/CS-5008/tree/mainn/final-research-PathFinders-Python)
 * **Semester**: Summer 2023
 * **Languages Used**: C and Python
 
